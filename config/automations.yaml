@@ -1,0 +1,115 @@
+- id: push-sensor-config
+  alias: Push sensor config
+  trigger:
+  - event: start
+    platform: homeassistant
+  action:
+   - service: mqtt.publish
+     data_template:
+       topic: "homeassistant/sensor/{{ states('input_text.location') }}-bme680-temperature/config"
+       retain: true
+       payload_template: > 
+         {
+           "unique_id": "{{ states('input_text.location') }}-bme680-temperature",
+           "name": "{{ states('input_text.location') }} temperature",
+           "state_topic": "homeassistant/sensor/{{ states('input_text.location') }}-bme680/state",
+           "device_class": "temperature",
+           {% raw %}
+           "value_template": "{{ '{{ value_json.temperature }}' }}",
+           {% endraw %}
+         }
+
+   - service: mqtt.publish
+     data_template:
+       topic: "homeassistant/sensor/{{ states('input_text.location') }}-bme680-humidity/config"
+       retain: true
+       payload_template: > 
+         {
+           "unique_id": "{{ states('input_text.location') }}-bme680-humidity",
+           "name": "{{ states('input_text.location') }} humidity",
+           "state_topic": "homeassistant/sensor/{{ states('input_text.location') }}-bme680/state",
+           "device_class": "humidity",
+           {% raw %}
+           "value_template": "{{ '{{ value_json.humidity }}' }}"
+           {% endraw %}
+         }
+
+   - service: mqtt.publish
+     data_template:
+       topic: "homeassistant/sensor/{{ states('input_text.location') }}-bme680-pressure/config"
+       retain: true
+       payload_template: > 
+         {
+           "unique_id": "{{ states('input_text.location') }}-bme680-pressure",
+           "name": "{{ states('input_text.location') }} pressure",
+           "state_topic": "homeassistant/sensor/{{ states('input_text.location') }}-bme680/state",
+           "device_class": "pressure",
+           {% raw %}
+           "value_template": "{{ '{{ value_json.pressure }}' }}"
+           {% endraw %}
+         }
+
+   - service: mqtt.publish
+     data_template:
+       topic: "homeassistant/sensor/{{ states('input_text.location') }}-bme680-airquality/config"
+       retain: true
+       payload_template: > 
+         {
+           "unique_id": "{{ states('input_text.location') }}-bme680-airquality",
+           "name": "{{ states('input_text.location') }} airquality",
+           "state_topic": "homeassistant/sensor/{{ states('input_text.location') }}-bme680/state",
+           "icon": "mdi:blur",
+           "unit_of_measurement",
+           {% raw %}
+           "value_template": "{{ '{{ value_json.airquality }}' }}"
+           {% endraw %}
+         }
+
+- id: remove-sensor-config
+  alias: Remove sensor config
+  trigger:
+    platform: homeassistant
+    event: shutdown
+  action:
+  - service: mqtt.publish
+    data_template:
+      topic: "homeassistant/sensor/{{ states('input_text.location') }}-bme680-temperature/config"
+      retain: true
+      payload: ''
+  - service: mqtt.publish
+    data_template:
+      topic: "homeassistant/sensor/{{ states('input_text.location') }}-bme680-humidity/config"
+      retain: true
+      payload: ''
+  - service: mqtt.publish
+    data_template:
+      topic: "homeassistant/sensor/{{ states('input_text.location') }}-bme680-pressure/config"
+      retain: true
+      payload: ''
+  - service: mqtt.publish
+    data_template:
+      topic: "homeassistant/sensor/{{ states('input_text.location') }}-bme680-airquality/config"
+      retain: true
+      payload: ''
+
+- id: push_state_on_change
+  alias: Push sensor state
+  trigger:
+    platform: state
+    entity_id:
+    - sensor.bme680_sensor_temperature
+    - sensor.bme680_sensor_humidity
+    - sensor.bme680_sensor_pressure
+    - sensor.bme680_sensor_air_quality
+  action:
+    service: mqtt.publish
+    data_template:
+      topic: "homeassistant/sensor/{{ states('input_text.location') }}-bme680/state"
+      retain: false
+      payload_template: > 
+        {
+          "temperature": {{ states('sensor.bme680_sensor_temperature') | to_json }},
+          "humidity": {{ states('sensor.bme680_sensor_humidity') | to_json }},
+          "pressure": {{ states('sensor.bme680_sensor_pressure') | to_json }},
+          "airquality": {{ states('sensor.bme680_sensor_air_quality') | to_json }}
+        }

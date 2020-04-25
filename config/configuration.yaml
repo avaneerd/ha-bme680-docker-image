@@ -1,0 +1,23 @@
+homeassistant:
+  name: !env_var LOCATION
+  unit_system: metric
+
+frontend:
+
+mqtt:
+  port: !env_var MQTT_PORT
+  broker: !env_var MQTT_HOST
+  client_id: !env_var MQTT_CLIENT_ID
+
+# hack? Doesn't seem to be an easy way to access environment vars from templates
+input_text:
+  location:
+    name: Location
+    initial: !env_var LOCATION
+
+sensor:
+  - platform: bme680
+    i2c_address: 0x76
+    temp_offset: -8.0
+
+automation: !include automations.yaml
