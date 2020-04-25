@@ -15,7 +15,7 @@
            "state_topic": "homeassistant/sensor/{{ states('input_text.location') }}-bme680/state",
            "device_class": "temperature",
            {% raw %}
-           "value_template": "{{ '{{ value_json.temperature }}' }}",
+           "value_template": "{{ '{{ value_json.temperature }}' }}"
            {% endraw %}
          }
 
