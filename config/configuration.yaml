@@ -2,8 +2,6 @@ homeassistant:
   name: !env_var LOCATION
   unit_system: metric
 
-frontend:
-
 mqtt:
   port: !env_var MQTT_PORT
   broker: !env_var MQTT_HOST
