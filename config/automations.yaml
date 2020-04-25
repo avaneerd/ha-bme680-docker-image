@@ -7,7 +7,7 @@
    - service: mqtt.publish
      data_template:
        topic: "homeassistant/sensor/{{ states('input_text.location') }}-bme680-temperature/config"
-       retain: true
+       retain: false
        payload_template: > 
          {
            "unique_id": "{{ states('input_text.location') }}-bme680-temperature",
@@ -22,7 +22,7 @@
    - service: mqtt.publish
      data_template:
        topic: "homeassistant/sensor/{{ states('input_text.location') }}-bme680-humidity/config"
-       retain: true
+       retain: false
        payload_template: > 
          {
            "unique_id": "{{ states('input_text.location') }}-bme680-humidity",
@@ -37,7 +37,7 @@
    - service: mqtt.publish
      data_template:
        topic: "homeassistant/sensor/{{ states('input_text.location') }}-bme680-pressure/config"
-       retain: true
+       retain: false
        payload_template: > 
          {
            "unique_id": "{{ states('input_text.location') }}-bme680-pressure",
@@ -52,14 +52,14 @@
    - service: mqtt.publish
      data_template:
        topic: "homeassistant/sensor/{{ states('input_text.location') }}-bme680-airquality/config"
-       retain: true
+       retain: false
        payload_template: > 
          {
            "unique_id": "{{ states('input_text.location') }}-bme680-airquality",
            "name": "{{ states('input_text.location') }} airquality",
            "state_topic": "homeassistant/sensor/{{ states('input_text.location') }}-bme680/state",
            "icon": "mdi:blur",
-           "unit_of_measurement",
+           "unit_of_measurement": "%",
            {% raw %}
            "value_template": "{{ '{{ value_json.airquality }}' }}"
            {% endraw %}
@@ -74,22 +74,22 @@
   - service: mqtt.publish
     data_template:
       topic: "homeassistant/sensor/{{ states('input_text.location') }}-bme680-temperature/config"
-      retain: true
+      retain: false
       payload: ''
   - service: mqtt.publish
     data_template:
       topic: "homeassistant/sensor/{{ states('input_text.location') }}-bme680-humidity/config"
-      retain: true
+      retain: false
       payload: ''
   - service: mqtt.publish
     data_template:
       topic: "homeassistant/sensor/{{ states('input_text.location') }}-bme680-pressure/config"
-      retain: true
+      retain: false
       payload: ''
   - service: mqtt.publish
     data_template:
       topic: "homeassistant/sensor/{{ states('input_text.location') }}-bme680-airquality/config"
-      retain: true
+      retain: false
       payload: ''
 
 - id: push_state_on_change
