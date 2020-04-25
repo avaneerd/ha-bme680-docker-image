@@ -1,3 +1,3 @@
-FROM homeassistant/raspberrypi3-homeassistant:stable
+FROM homeassistant/raspberrypi-homeassistant:stable
 
 ADD config /config
