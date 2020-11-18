@@ -14,6 +14,7 @@
            "name": "{{ states('input_text.location') }} temperature",
            "state_topic": "homeassistant/sensor/{{ states('input_text.location') }}-bme680/state",
            "device_class": "temperature",
+           "unit_of_measurement": "°C",
            {% raw %}
            "value_template": "{{ '{{ value_json.temperature }}' }}"
            {% endraw %}
@@ -29,6 +30,7 @@
            "name": "{{ states('input_text.location') }} humidity",
            "state_topic": "homeassistant/sensor/{{ states('input_text.location') }}-bme680/state",
            "device_class": "humidity",
+           "unit_of_measurement": "%",
            {% raw %}
            "value_template": "{{ '{{ value_json.humidity }}' }}"
            {% endraw %}
