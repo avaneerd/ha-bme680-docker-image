@@ -13,7 +13,7 @@
            "unique_id": "{{ states('input_text.location') }}-bme680-temperature",
            "name": "{{ states('input_text.location') }} temperature",
            "state_topic": "homeassistant/sensor/{{ states('input_text.location') }}-bme680/state",
-           "device_class": "temperature",
+           "icon": "mdi:thermometer",
            "unit_of_measurement": "°C",
            {% raw %}
            "value_template": "{{ '{{ value_json.temperature }}' }}"
@@ -29,7 +29,7 @@
            "unique_id": "{{ states('input_text.location') }}-bme680-humidity",
            "name": "{{ states('input_text.location') }} humidity",
            "state_topic": "homeassistant/sensor/{{ states('input_text.location') }}-bme680/state",
-           "device_class": "humidity",
+           "icon": "mdi:water-percent",
            "unit_of_measurement": "%",
            {% raw %}
            "value_template": "{{ '{{ value_json.humidity }}' }}"
